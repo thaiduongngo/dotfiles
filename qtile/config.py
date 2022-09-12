@@ -1,20 +1,3 @@
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, MODify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
 import os
 import subprocess
 from libqtile import bar, layout, widget, hook, qtile
@@ -22,12 +5,26 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.dgroups import simple_key_binder
 
-# from libqtile.utils import guess_terminal
+
+def load_props(filepath, sep='='):
+    props = {}
+    with open(filepath, "rt") as f:
+        for line in f:
+            l = line.strip()
+            if l:
+                key_value = l.split(sep)
+                key = key_value[0].strip()
+                value = sep.join(key_value[1:]).strip().strip('"')
+                props[key] = value
+    return props
+
 
 MOD = "mod4"
 SHIFT = "shift"
 CTRL = "control"
 RETURN = "Return"
+
+HOME = os.path.expanduser('~')
 
 M_BTNS = []
 M_BTNS.append("Button1")
@@ -36,13 +33,12 @@ M_BTNS.append("Button3")
 
 TERMINALS = []
 TERMINALS.append("alacritty")
-TERMINALS.append("kitty")
-TERMINALS.append("uxterm")
+TERMINALS.append("xterm")
 
 BROWSERS = []
 BROWSERS.append("firefox")
 BROWSERS.append("google-chrome-stable")
-BROWSERS.append("librewolf")
+BROWSERS.append("brave")
 
 TORRENT_CLIENT = "transmission-gtk"
 
@@ -54,48 +50,33 @@ FONTS.append("Source Code Pro")
 FONTS.append("Fira Code")
 FONTS.append("Roboto Mono")
 FONT = FONTS[0]
+FONT_SIZE = 13
+FONT_SIZE_SMALL = 11
 
-APP_LAUNCHER = "dmenu_run"
+APP_LAUNCHER = f"dmenu_run -p '❯ ' -fn '{FONT}'"
 BACKLIGHT_NAME = "intel_backlight"
 
 TEXT_EDITORS = []
 TEXT_EDITORS.append("code")
 TEXT_EDITOR = TEXT_EDITORS[0]
 
-COLORS = {
-    "black": "#000000",
-    "blackb": "#111111",
-    "cyan": "#22cccc",
-    "cyanb": "#aaeeee",
-    "violet": "#3f113f",
-    "violetd": "#220022",
-    "green": "#22cc22",
-    "yellow": "#e1cd5c",
-    "yellowb": "#e1e1ac",
-    "blue": "#2222cc",
-    "navy": "#000033",
-    "red": "#cc2222",
-    "orange": "#f58e4d",
-    "salmon": "#f4bf55",
-    "grey9": "#999999",
-    "grey8": "#888888",
-    "grey7": "#777777",
-    "grey6": "#666666",
-    "grey5": "#555555",
-    "grey4": "#444444", }
 
-THIS_CURRENT = COLORS["navy"]
-ACTIVE = COLORS["salmon"]
-INACTIVE = COLORS["grey5"]
-URGENT = COLORS["red"]
-HIGHLIGHT = [COLORS["yellowb"], COLORS["yellow"], ]
-FOREGROUND = COLORS["cyanb"]
-BACKGROUND = [COLORS["violet"], COLORS["violetd"], ]
-FOCUS = COLORS["green"]
-NORMAL = COLORS["cyanb"]
+COLORS = load_props(f"{HOME}/.config/qtile/colors.properties")
 
-PADDING_SIZE = 3
-OPACITY = 0.9
+THIS_CURRENT = COLORS["navyblue"]
+ACTIVE = COLORS["comicbookyellow"]
+INACTIVE = COLORS["charcoalgray"]
+HIGHLIGHT = [COLORS["lemonyellow"], COLORS["comicbookyellow"], ]
+URGENT = COLORS["scarletred"]
+FOREGROUND = COLORS["iceblue"]
+FOREGROUND2 = COLORS["cetaceanblue"]
+BACKGROUND = [COLORS["cetaceanblue"], COLORS["midnightblue"], ]
+FOCUS = COLORS["grassgreen"]
+NORMAL = COLORS["iceblue"]
+
+WN_MARGIN = 4
+PADDING_SIZE = 2
+OPACITY = 0.85
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -140,10 +121,9 @@ keys = [
     Key([MOD, CTRL], "r", lazy.reload_config(), desc="Reload the config"),
     Key([MOD, CTRL], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     # Key([MOD], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-    Key([MOD], "r", lazy.spawn(APP_LAUNCHER), desc="Spawn app launcher"),
     Key([MOD], "i", lazy.spawn(BROWSERS[0]), desc="Spawn browser"),
     Key([MOD], "g", lazy.spawn(BROWSERS[1]), desc="Spawn browser"),
-    Key([MOD], "o", lazy.spawn(BROWSERS[2]), desc="Spawn browser"),
+    Key([MOD], "b", lazy.spawn(BROWSERS[2]), desc="Spawn browser"),
     Key([MOD], "t", lazy.spawn(TORRENT_CLIENT), desc="Spawn torrent client"),
     Key([MOD], "m", lazy.spawn(FILE_MANAGERS[0]), desc="Spawn files manager"),
     Key([MOD], "x", lazy.spawn(TEXT_EDITOR), desc="Spawn editor"),
@@ -157,6 +137,7 @@ keys = [
     Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight - 5")),
     Key([MOD], RETURN, lazy.spawn(TERMINALS[0]), desc="Launch terminal"),
     Key([MOD, CTRL], RETURN, lazy.spawn(TERMINALS[1]), desc="Launch terminal"),
+    Key([MOD], "r", lazy.spawn(APP_LAUNCHER), desc="Spawn app launcher"),
 ]
 
 groups = [Group("1SY", "ratiotile"),
@@ -188,8 +169,8 @@ for g in groups:
     )
     i = i + 1
 
-LAYOUT_STYLE = {"border_width": 2,
-                "margin": 3,
+LAYOUT_STYLE = {"border_width": 3,
+                "margin": WN_MARGIN,
                 "border_focus": FOCUS,
                 "border_normal": NORMAL,
                 }
@@ -217,8 +198,8 @@ layouts = [
 
 widget_defaults = dict(
     font=FONT,
-    fontsize=13,
-    padding=3,
+    fontsize=FONT_SIZE,
+    padding=PADDING_SIZE,
     background=BACKGROUND,
     foreground=FOREGROUND,
 )
@@ -227,7 +208,7 @@ extension_defaults = widget_defaults.copy()
 
 sep_big = widget.Sep(
     linewidth=0,
-    padding=6,
+    padding=4,
 )
 
 sep = widget.Sep(
@@ -250,7 +231,7 @@ def create_widgets():
             active=ACTIVE,
             inactive=INACTIVE,
             highlight_color=HIGHLIGHT,
-            block_highlight_text_color=BACKGROUND[0],
+            block_highlight_text_color=FOREGROUND2,
             highlight_method="line",
             rounded=False,
             this_current_screen_border=THIS_CURRENT,
@@ -262,27 +243,28 @@ def create_widgets():
         sep,
         # widget.Prompt(),
         widget.WindowName(
-            foreground=BACKGROUND[0],
-            background=HIGHLIGHT,
+            # foreground=FOREGROUND2,
+            # background=HIGHLIGHT,
             padding=10,
             empty_group_string="<Empty>"),
         # widget.Systray(),
         sep_big,
         widget.CurrentLayoutIcon(scale=0.7, ),
         sep,
-        widget.Net(interface="wlp5s0",
+        widget.Net(fmt="❯ N:{}",
+                   interface="wlp5s0",
                    padding=PADDING_SIZE),
         sep,
-        widget.Volume(fmt="V: {}",
+        widget.Volume(fmt="❯ V:{}",
                       padding=PADDING_SIZE,),
         sep,
-        widget.Backlight(fmt="D: {}",
+        widget.Backlight(fmt="❯ D:{}",
                          padding=PADDING_SIZE,
                          backlight_name=BACKLIGHT_NAME, ),
         sep,
         # widget.Clock(format="%Y-%m-%d %a %I:%M %p",
         #              padding=PADDING_SIZE, ),
-        widget.Clock(format="%Y-%m-%d %I:%M %p",
+        widget.Clock(format="❯ %Y-%m-%d %I:%M %p",
                      padding=PADDING_SIZE, ),
         sep,
     ]
@@ -327,7 +309,8 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
-    ]
+    ],
+    auto_float_types="dialog",
 )
 
 auto_fullscreen = True
@@ -344,14 +327,12 @@ wl_input_rules = None
 
 @ hook.subscribe.startup
 def autostart():
-    home = os.path.expanduser('~')
-    subprocess.Popen([home + '/.config/qtile/autostart.sh'])
+    subprocess.Popen([HOME + '/.config/qtile/autostart.sh'])
 
 
 @ hook.subscribe.startup_once
 def autostart_once():
-    home = os.path.expanduser('~')
-    subprocess.Popen([home + '/.config/qtile/autostart_once.sh'])
+    subprocess.Popen([HOME + '/.config/qtile/autostart_once.sh'])
 
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this

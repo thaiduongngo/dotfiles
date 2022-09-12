@@ -44,8 +44,7 @@ window:
   #
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
-  opacity: 0.95
-  # opacity: 0.80
+  opacity: 0.91
 
   # Window decorations
   #
@@ -557,14 +556,14 @@ schemes:
       cyan: "#54ced6"
       white: "#282a2e"
 
-  ### Monokai2 ###
-  Monokai2: &Monokai2 # Default colors
+  ### Sunrise ###
+  Sunrise: &Sunrise # Default colors
     primary:
-      background: "#2d2a2e"
-      foreground: "#ee9ba4"
+      background: "#0d0d00"
+      foreground: "#ff6d6a"
     cursor:
       text: CellBackground
-      cursor: "#eeee44"
+      cursor: "#ffde00"
 
     # Normal colors
     normal:
@@ -601,9 +600,9 @@ schemes:
 # *SolarizedLight
 # *SolarizedDark
 # *TomorrowNight
-# *Monokai2
+# *Sunrise
 
-colors: *Monokai2
+colors: *Sunrise
 
 #######################################
 ##       END OF COLOR SCHEMES        ##
