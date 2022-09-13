@@ -116,7 +116,7 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: Source Code Pro
+    family: Fira Code
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
@@ -135,7 +135,7 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Source Code Pro
+    family: Fira Code
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
@@ -154,7 +154,7 @@ font:
     #
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Source Code Pro
+    family: Fira Code
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
@@ -173,7 +173,7 @@ font:
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    family: Source Code Pro
+    family: Fira Code
     # family: CodeNewRoman Nerd Font
     # family: RobotoMono Nerd Font
     # family: Hack
@@ -559,8 +559,8 @@ schemes:
   ### Sunrise ###
   Sunrise: &Sunrise # Default colors
     primary:
-      background: "#0d0d00"
-      foreground: "#ff6d6a"
+      background: "#090900"
+      foreground: "#FBDB65"
     cursor:
       text: CellBackground
       cursor: "#ffde00"
@@ -568,12 +568,12 @@ schemes:
     # Normal colors
     normal:
       black: "#403E41"
-      red: "#FF6188"
-      green: "#A9DC76"
-      yellow: "#FFD866"
-      blue: "#FC9867"
-      magenta: "#AB9DF2"
-      cyan: "#78DCE8"
+      red: "#D22730"
+      green: "#009A17"
+      yellow: "#FFDE00"
+      blue: "#00AEEF"
+      magenta: "#8031A7"
+      cyan: "#00BCE3"
       white: "#FCFCFA"
 
     # Bright colors
@@ -582,7 +582,7 @@ schemes:
       red: "#FF6188"
       green: "#A9DC76"
       yellow: "#FFD866"
-      blue: "#FC9867"
+      blue: "#BF9972"
       magenta: "#AB9DF2"
       cyan: "#78DCE8"
       white: "#FCFCFA"
