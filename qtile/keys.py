@@ -1,12 +1,19 @@
 from libqtile.config import Key
 from libqtile.lazy import lazy
-from utils import MOD, SHIFT, CTRL, RETURN, TERMINALS, TEXT_EDITOR, TORRENT_CLIENT, APP_LAUNCHER, BROWSERS, FILE_MANAGERS, float_to_front
+from utils import TERMINALS, TEXT_EDITORS, TORRENT_CLIENTS, BROWSERS, FILE_MANAGERS, APP_LAUNCHERS,  float_to_front
+
+M_BTNS = []
+M_BTNS.append("Button1")
+M_BTNS.append("Button2")
+M_BTNS.append("Button3")
+MOD = "mod4"
+SHIFT = "shift"
+CTRL = "control"
+RETURN = "Return"
 
 
 def create_keys():
     return [
-        # A list of available commands that can be bound to keys can be found
-        # at https://docs.qtile.org/en/latest/manual/config/lazy.html
         # Switch between windows
         Key([MOD], "h", lazy.layout.left(), desc="Move focus to left"),
         Key([MOD], "l", lazy.layout.right(), desc="Move focus to right"),
@@ -58,13 +65,13 @@ def create_keys():
         # More keybindings
         Key([MOD], RETURN, lazy.spawn(TERMINALS[0]), ),
         Key([MOD, CTRL], RETURN, lazy.spawn(TERMINALS[1]), ),
-        Key([MOD], "r", lazy.spawn(APP_LAUNCHER), ),
+        Key([MOD], "r", lazy.spawn(APP_LAUNCHERS[0]), ),
         Key([MOD], "p", lazy.spawncmd(), ),
         Key([MOD, SHIFT], "f", float_to_front),
         Key([MOD], "i", lazy.spawn(BROWSERS[0]), ),
         Key([MOD], "g", lazy.spawn(BROWSERS[1]), ),
         Key([MOD], "o", lazy.spawn(BROWSERS[2]), ),
-        Key([MOD], "t", lazy.spawn(TORRENT_CLIENT), ),
+        Key([MOD], "t", lazy.spawn(TORRENT_CLIENTS[0]), ),
         Key([MOD], "m", lazy.spawn(FILE_MANAGERS[0]), ),
-        Key([MOD], "x", lazy.spawn(TEXT_EDITOR), ),
+        Key([MOD], "x", lazy.spawn(TEXT_EDITORS[0]), ),
     ]

@@ -1,16 +1,47 @@
 from libqtile import bar, layout, widget, qtile
 from libqtile.config import Group, Key, Screen
 from libqtile.lazy import lazy
-from utils import WORKSPACES, MOD, SHIFT, M_BTNS, WN_BORDER_WIDTH, WN_MARGIN, FOCUS, NORMAL
-from utils import FONT, FONT_SIZE, PADDING_SIZE, BACKGROUND, FOREGROUND, TERMINALS, ACTIVE, INACTIVE
-from utils import HIGHLIGHT, FOREGROUND2, THIS_CURRENT, URGENT, BACKLIGHT_NAME, OPACITY
+from keys import MOD, SHIFT, M_BTNS
+from utils import FONTS, HOME_DIR, BACKLIGHT_NAME, TERMINALS, read_props
+
+WORKSPACES = (
+    ("1", "1", "monadwide"),
+    ("2", "2", "monadtall"),
+    ("3", "3", "monadtall"),
+    ("4", "4", "monadtall"),
+    ("5", "5", "monadtall"),
+    ("6", "6", "monadtall"),
+    ("7", "7", "monadtall"),
+    ("8", "8", "monadtall"),
+    ("9", "9", "monadtall"),
+    ("10", "0", "monadtall"),
+)
+# Colors setting
+COLORS = read_props(f"{HOME_DIR}/.config/qtile/colors.properties")
+ACTIVE = COLORS["iceblue"]
+INACTIVE = "4c566a"
+THIS_CURRENT = "2e3440"
+HIGHLIGHT = [COLORS["iceblue"], "d8dee9", ]
+URGENT = COLORS["scarletred"]
+BACKGROUND = ["2e3440", "3b4252", ]
+FOREGROUND = COLORS["iceblue"]
+FOREGROUND1 = COLORS["pastelred"]
+FOREGROUND2 = "2e3440"
+FOCUS = COLORS["grassgreen"]
+NORMAL = COLORS["iceblue"]
+WN_MARGIN = 4
+WN_BORDER_WIDTH = 2
+PADDING_SIZE = 3
+OPACITY = 0.91
+FONT_SIZE = 13
+FONT_SIZE_SMALL = 11
 
 
-def create_groups(keys):
+def create_groups(ks):
     grps = []
     for ws in WORKSPACES:
         grps.append(Group(ws[0], layout=ws[2]))
-        keys.extend(
+        ks.extend(
             [
                 Key(
                     [MOD],
@@ -24,7 +55,7 @@ def create_groups(keys):
                 ),
             ]
         )
-    return grps
+    return grps, ks
 
 
 LAYOUT_STYLE = {"border_width": WN_BORDER_WIDTH,
@@ -58,7 +89,7 @@ def create_layouts():
 
 
 WIDGET_DEFAULTS = dict(
-    font=FONT,
+    font=FONTS[0],
     fontsize=FONT_SIZE,
     padding=PADDING_SIZE,
     background=BACKGROUND,
@@ -110,17 +141,17 @@ def create_widgets():
         sep,
         widget.StatusNotifier(padding=PADDING_SIZE, ),
         sep,
-        widget.Volume(fmt="🔈:{}",
+        widget.Volume(fmt="{}",
                       padding=PADDING_SIZE, ),
         sep,
-        widget.Backlight(fmt="🔆:{}",
+        widget.Backlight(fmt="{}",
                          padding=PADDING_SIZE,
                          backlight_name=BACKLIGHT_NAME, ),
         sep,
-        widget.Battery(fmt="🔋:{}",
+        widget.Battery(fmt="{}",
                        padding=PADDING_SIZE, ),
         sep,
-        widget.Clock(format="📅:%Y-%m-%d %I:%M %p",
+        widget.Clock(format="%Y-%m-%d %I:%M %p",
                      padding=PADDING_SIZE, ),
         sep,
     ]
