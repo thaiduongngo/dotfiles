@@ -15,9 +15,8 @@ TORRENT_CLIENTS.append("transmission-gtk")
 FILE_MANAGERS = []
 FILE_MANAGERS.append("pcmanfm")
 FONTS = []
-FONTS.append("Source Code Pro")
-FONTS.append("Roboto Mono")
-FONTS.append("Fira Code")
+FONTS.append("Source Code Pro Bold")
+FONTS.append("Fira Code Bold")
 APP_LAUNCHERS = []
 APP_LAUNCHERS.append(f"dmenu_run -p '⮞ ' -fn '{FONTS[0]}'")
 TEXT_EDITORS = []

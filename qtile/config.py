@@ -7,6 +7,7 @@ from utils import HOME_DIR
 from keys import create_keys, MOD, M_BTNS
 from screens import create_groups, create_layouts, create_screen, WIDGET_DEFAULTS
 
+
 dgroups_key_binder = simple_key_binder(MOD)
 dgroups_app_rules = []  # type: list
 keys = create_keys()
@@ -28,6 +29,7 @@ mouse = [
 FLOAT_RULES = [
     ("wm_class", "microsoft teams - preview"),
     ("title", "Confirm File Replacing"),
+    ("wm_class", "vlc"),
 ]
 
 
