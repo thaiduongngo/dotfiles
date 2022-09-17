@@ -1,28 +1,22 @@
 from libqtile import layout, hook
-from libqtile.config import Click, Drag, Match
-from libqtile.lazy import lazy
+from libqtile.config import Match
 from libqtile.dgroups import simple_key_binder
 from subprocess import Popen
-from utils import HOME_DIR
-from keys import create_keys, MOD, M_BTNS
-from screens import create_groups, create_layouts, create_screen, WIDGET_DEFAULTS
+from nspace import HOME_DIR
+from keys import create_keys, MOD, MOUSE_EVENTS
+from screens import create_layouts, create_screen, WIDGET_DEFAULTS
+from grps import create_groups
 
 
 dgroups_key_binder = simple_key_binder(MOD)
 dgroups_app_rules = []  # type: list
 keys = create_keys()
-groups, keys = create_groups(ks=keys)
+groups = create_groups(ks=keys)
 layouts = create_layouts()
 widget_defaults = WIDGET_DEFAULTS
 extension_defaults = widget_defaults.copy()
 screens = [create_screen(), ]
-mouse = [
-    Drag([MOD], M_BTNS[0], lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
-    Drag([MOD], M_BTNS[2], lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
-    Click([MOD], M_BTNS[1], lazy.window.bring_to_front()),
-]
+mouse = MOUSE_EVENTS
 
 # Run the utility of `xprop` to see the wm class and name of an X client.
 # Add more rules into the list `FLOAT_RULES`

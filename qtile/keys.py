@@ -1,15 +1,30 @@
-from libqtile.config import Key
+from libqtile.config import Key, Click, Drag
 from libqtile.lazy import lazy
-from utils import TERMINALS, TEXT_EDITORS, TORRENT_CLIENTS, BROWSERS, FILE_MANAGERS, APP_LAUNCHERS,  float_to_front
+from nspace import TERMINALS, TEXT_EDITORS, TORRENT_CLIENTS, BROWSERS, FILE_MANAGERS, APP_LAUNCHERS
 
-M_BTNS = []
-M_BTNS.append("Button1")
-M_BTNS.append("Button2")
-M_BTNS.append("Button3")
+
+M_BTNS = ["Button1", "Button2", "Button3"]
 MOD = "mod4"
 SHIFT = "shift"
 CTRL = "control"
 RETURN = "Return"
+
+
+@lazy.function
+def float_to_front(qtile):
+    for group in qtile.groups:
+        for window in group.windows:
+            if window.floating:
+                window.cmd_bring_to_front()
+
+
+MOUSE_EVENTS = [
+    Drag([MOD], M_BTNS[0], lazy.window.set_position_floating(),
+         start=lazy.window.get_position()),
+    Drag([MOD], M_BTNS[2], lazy.window.set_size_floating(),
+         start=lazy.window.get_size()),
+    Click([MOD], M_BTNS[1], lazy.window.bring_to_front()),
+]
 
 
 def create_keys():

@@ -1,53 +1,14 @@
-from utils import FONTS, HOME_DIR, BACKLIGHT_NAME, TERMINALS, read_props
-from keys import MOD, SHIFT, M_BTNS
+
 from libqtile.lazy import lazy
 from libqtile.config import Group, Key, Screen
 from libqtile import bar, layout, widget, qtile
+from keys import M_BTNS
+from nspace import FONTS, HOME_DIR, BACKLIGHT_NAME, TERMINALS, read_props
+from nspace import WN_MARGIN, WN_BORDER_WIDTH, FONT_SIZE, FONT_ICON_SIZE, TEXT_PADDING_SIZE, OPACITY
 
-WORKSPACES = (
-    ("1", "1", "monadwide"),
-    ("2", "2", "monadtall"),
-    ("3", "3", "monadtall"),
-    ("4", "4", "monadtall"),
-    ("5", "5", "monadtall"),
-    ("6", "6", "monadtall"),
-    ("7", "7", "monadtall"),
-    ("8", "8", "monadtall"),
-    ("9", "9", "monadtall"),
-    ("10", "0", "monadtall"),
-)
+
 # Colors theme
 THEME = read_props(f"{HOME_DIR}/.config/qtile/cpunk.properties")
-
-WN_MARGIN = 4
-WN_BORDER_WIDTH = 3
-PADDING_SIZE = 3
-OPACITY = 0.9
-FONT_SIZE = 13
-FONT_SIZE_SMALL = 11
-ICON_SIZE = 31
-
-
-def create_groups(ks):
-    grps = []
-    for ws in WORKSPACES:
-        grps.append(Group(ws[0], layout=ws[2]))
-        ks.extend(
-            [
-                Key(
-                    [MOD],
-                    ws[1],
-                    lazy.group[ws[0]].toscreen(),
-                ),
-                Key(
-                    [MOD, SHIFT],
-                    ws[1],
-                    lazy.window.togroup(ws[0], switch_group=True),
-                ),
-            ]
-        )
-    return grps, ks
-
 
 LAYOUT_STYLE = {"border_width": WN_BORDER_WIDTH,
                 "margin": WN_MARGIN,
@@ -79,7 +40,7 @@ def create_layouts():
 WIDGET_DEFAULTS = dict(
     font=FONTS[0],
     fontsize=FONT_SIZE,
-    padding=PADDING_SIZE,
+    padding=TEXT_PADDING_SIZE,
     background=[THEME["BACKGROUND1"], THEME["BACKGROUND2"]],
     foreground=THEME["FOREGROUND"],
 )
@@ -104,9 +65,8 @@ def create_widgets():
             scale="False",
             mouse_callbacks={
                 M_BTNS[0]: lambda: qtile.cmd_spawn(TERMINALS[0])}),
-        sep_big,
+        sep,
         widget.GroupBox(
-            padding=PADDING_SIZE,
             active=THEME["ACTIVE"],
             inactive=THEME["INACTIVE"],
             highlight_color=[THEME["HIGHLIGHT1"], THEME["HIGHLIGHT2"]],
@@ -119,35 +79,32 @@ def create_widgets():
             urgent_text=THEME["URGENT"],
             urgent_border=THEME["URGENT"],
         ),
-        sep_big,
+        sep,
         widget.Prompt(fmt="❯ {}"),
         widget.WindowName(fmt="❯ {}",
                           padding=6,
                           empty_group_string="<Empty>"),
-        sep_big,
-        widget.CurrentLayoutIcon(scale=0.66, ),
         sep,
-        widget.StatusNotifier(padding=PADDING_SIZE, ),
+        widget.CurrentLayoutIcon(scale=0.66),
         sep,
-        widget.TextBox(text="&#xf028;", fontsize=ICON_SIZE,
-                       foreground=THEME["HIGHLIGHT1"],),
-        widget.Volume(
-            padding=PADDING_SIZE, ),
-        widget.TextBox(text="&#xf108;", fontsize=ICON_SIZE,
-                       foreground=THEME["HIGHLIGHT1"],),
-        widget.Backlight(padding=PADDING_SIZE,
-                         backlight_name=BACKLIGHT_NAME, ),
+        widget.StatusNotifier(),
         sep,
-        widget.TextBox(text="&#xf240;", fontsize=ICON_SIZE,
+        widget.TextBox(text="&#xf028;", fontsize=FONT_ICON_SIZE,
                        foreground=THEME["HIGHLIGHT1"],),
-        widget.Battery(padding=PADDING_SIZE, ),
+        widget.Volume(),
         sep,
-        widget.TextBox(text="&#xf133;", fontsize=ICON_SIZE,
+        widget.TextBox(text="&#xf108;", fontsize=FONT_ICON_SIZE,
                        foreground=THEME["HIGHLIGHT1"],),
-        widget.Clock(format="%I:%M %p",
-                     padding=PADDING_SIZE, ),
-        # widget.Clock(format="%Y-%m-%d %I:%M %p",
-        #              padding=PADDING_SIZE, ),
+        widget.Backlight(backlight_name=BACKLIGHT_NAME),
+        sep,
+        widget.TextBox(text="&#xf240;", fontsize=FONT_ICON_SIZE,
+                       foreground=THEME["HIGHLIGHT1"],),
+        widget.Battery(),
+        sep,
+        widget.TextBox(text="&#xf133;", fontsize=FONT_ICON_SIZE,
+                       foreground=THEME["HIGHLIGHT1"],),
+        widget.Clock(format="%I:%M %p"),
+        # widget.Clock(format="%Y-%m-%d %I:%M %p"),
         sep_big,
     ]
     return widgets
