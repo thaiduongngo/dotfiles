@@ -89,6 +89,12 @@ def create_widgets():
         sep,
         widget.StatusNotifier(),
         sep,
+        widget.TextBox(text="&#xf1eb;", fontsize=FONT_ICON_SIZE,
+                       foreground=THEME["HIGHLIGHT1"],),
+        widget.Net(
+            format="{down}↓{up}↑",
+            mouse_callbacks={M_BTNS[0]: lambda: qtile.cmd_spawn(f"{TERMINALS[0]} -e nmtui")}),
+        sep,
         widget.TextBox(text="&#xf028;", fontsize=FONT_ICON_SIZE,
                        foreground=THEME["HIGHLIGHT1"],),
         widget.Volume(),
@@ -103,7 +109,9 @@ def create_widgets():
         sep,
         widget.TextBox(text="&#xf133;", fontsize=FONT_ICON_SIZE,
                        foreground=THEME["HIGHLIGHT1"],),
-        widget.Clock(format="%I:%M %p"),
+        widget.Clock(
+            format="%I:%M %p",
+            mouse_callbacks={M_BTNS[0]: lambda: qtile.cmd_spawn(f"{TERMINALS[0]} -e khal --color interactive")}),
         # widget.Clock(format="%Y-%m-%d %I:%M %p"),
         sep_big,
     ]

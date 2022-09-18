@@ -10,11 +10,11 @@ FONT_SIZE_SMALL = 11
 FONT_ICON_SIZE = 30
 # App settings
 TERMINALS = ["alacritty", "xterm"]
-BROWSERS = ["firefox", "google-chrome-stable", "librewolf"]
+BROWSERS = ["firefox", "google-chrome-stable", "brave"]
 TORRENT_CLIENTS = ["transmission-gtk"]
 FILE_MANAGERS = ["pcmanfm"]
 APP_LAUNCHERS = [f"dmenu_run -p '⮞ ' -fn '{FONTS[1]}'"]
-TEXT_EDITORS = ["code"]
+TEXT_EDITORS = ["code", "emacs"]
 # Other settings
 BACKLIGHT_NAME = "intel_backlight"
 WN_MARGIN = 4
