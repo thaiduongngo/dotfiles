@@ -8,8 +8,6 @@ MOD = "mod4"
 SHIFT = "shift"
 CTRL = "control"
 RETURN = "Return"
-MOD_SHIFT = [MOD, SHIFT]
-MOD_CTRL = [MOD, CTRL]
 NULL_KEY = []
 
 
@@ -29,7 +27,7 @@ MOUSE_EVENTS = [
     Click([MOD], M_BTNS[1], lazy.window.bring_to_front()),
 ]
 
-KEY_CHORD_A = [
+KEY_CHORD_MA = [
     Key(NULL_KEY, "m", lazy.spawn(FILE_MANAGERS[0]), ),
     Key(NULL_KEY, "v", lazy.spawn(TEXT_EDITORS[0]), ),
     Key(NULL_KEY, "e", lazy.spawn(TEXT_EDITORS[1]), ),
@@ -79,7 +77,7 @@ DEFAULT_KEYS = [
     # Toggle between different layouts as defined below
     Key([MOD], "Tab", lazy.next_layout(),
                desc="Toggle between layouts"),
-    Key([MOD], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([MOD], "c", lazy.window.kill(), desc="Kill focused window"),
     Key([MOD, CTRL], "r", lazy.reload_config(), desc="Reload the config"),
     Key([MOD, CTRL], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     # Sound
@@ -98,8 +96,9 @@ DEFAULT_KEYS = [
     Key([MOD], "p", lazy.spawncmd(), ),
     Key([MOD, SHIFT], "f", float_to_front),
     Key([MOD], "m", lazy.spawn(FILE_MANAGERS[0]), ),
-    # KeyChord: M-m
-    KeyChord([MOD], "a", KEY_CHORD_A),
+    Key([MOD, CTRL], "s", lazy.spawn(f"{TERMINALS[0]} -e shutdown now"), ),
+    # KeyChord: M-a
+    KeyChord([MOD], "a", KEY_CHORD_MA),
 ]
 
 

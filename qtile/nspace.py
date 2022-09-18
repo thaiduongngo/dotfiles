@@ -7,13 +7,13 @@ HOME_DIR = expanduser("~")
 FONTS = ["Source Code Pro Bold", "Fira Code Bold"]
 FONT_SIZE = 13
 FONT_SIZE_SMALL = 11
-FONT_ICON_SIZE = 30
+FONT_ICON_SIZE = 28
 # App settings
 TERMINALS = ["alacritty", "xterm"]
 BROWSERS = ["firefox", "google-chrome-stable", "brave"]
 TORRENT_CLIENTS = ["transmission-gtk"]
 FILE_MANAGERS = ["pcmanfm"]
-APP_LAUNCHERS = [f"dmenu_run -p '⮞ ' -fn '{FONTS[1]}'"]
+APP_LAUNCHERS = [f"dmenu_run -p '❯ ' -fn '{FONTS[1]}'"]
 TEXT_EDITORS = ["code", "emacs"]
 # Other settings
 BACKLIGHT_NAME = "intel_backlight"

@@ -10,7 +10,6 @@ FLOAT_RULES = [
     (WM_CLASS, "microsoft teams - preview"),
     (WM_CLASS, "vlc"),
     (TITLE, "Confirm File Replacing"),
-
 ]
 
 

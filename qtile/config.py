@@ -18,26 +18,6 @@ widget_defaults = WIDGET_DEFAULTS
 extension_defaults = widget_defaults.copy()
 screens = [create_screen(), ]
 mouse = MOUSE_EVENTS
-
-# Run the utility of `xprop` to see the wm class and name of an X client.
-# Add more rules into the list `FLOAT_RULES`
-FLOAT_RULES = [
-    ("wm_class", "microsoft teams - preview"),
-    ("title", "Confirm File Replacing"),
-    ("wm_class", "vlc"),
-]
-
-
-def create_float_rules(float_rules):
-    frs = [*layout.Floating.default_float_rules]
-    for float_rule in float_rules:
-        if float_rule[0] == "wm_class":
-            frs.append(Match(wm_class=float_rule[1]))
-        elif float_rule[0] == "title":
-            frs.append(Match(title=float_rule[1]))
-    return frs
-
-
 floating_layout = create_floating(layout)
 follow_mouse_focus = False
 bring_front_click = True
