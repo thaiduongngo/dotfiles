@@ -4,16 +4,16 @@ from keys import MOD, SHIFT
 
 
 WORKSPACES = (
-    ("1", "1", "ratiotile"),
-    ("2", "2", "monadtall"),
-    ("3", "3", "monadtall"),
-    ("4", "4", "monadtall"),
-    ("5", "5", "monadtall"),
-    ("6", "6", "monadtall"),
-    ("7", "7", "monadtall"),
-    ("8", "8", "monadtall"),
-    ("9", "9", "monadtall"),
-    ("10", "0", "monadtall"),
+    ("1", "1", "bsp"),
+    ("2", "2", "bsp"),
+    ("3", "3", "bsp"),
+    ("4", "4", "bsp"),
+    ("5", "5", "bsp"),
+    ("6", "6", "bsp"),
+    ("7", "7", "bsp"),
+    ("8", "8", "bsp"),
+    ("9", "9", "bsp"),
+    ("0", "0", "bsp"),
 )
 
 

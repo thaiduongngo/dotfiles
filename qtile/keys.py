@@ -1,6 +1,6 @@
 from libqtile.config import Key, KeyChord, Click, Drag
 from libqtile.lazy import lazy
-from nspace import TERMINALS, TEXT_EDITORS, TORRENT_CLIENTS, BROWSERS, FILE_MANAGERS, APP_LAUNCHERS
+from nspace import TERMINALS, TEXT_EDITORS, TORRENT_CLIENTS, BROWSERS, FILE_MANAGERS, APP_LAUNCHERS, IDES
 
 
 M_BTNS = ["Button1", "Button2", "Button3"]
@@ -20,21 +20,22 @@ def float_to_front(qtile):
 
 
 MOUSE_EVENTS = [
-    Drag([MOD], M_BTNS[0], lazy.window.set_position_floating(),
+    Drag([MOD], M_BTNS[2], lazy.window.set_position_floating(),
          start=lazy.window.get_position()),
-    Drag([MOD], M_BTNS[2], lazy.window.set_size_floating(),
+    Drag([MOD], M_BTNS[0], lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
     Click([MOD], M_BTNS[1], lazy.window.bring_to_front()),
 ]
 
-KEY_CHORD_MA = [
-    Key(NULL_KEY, "m", lazy.spawn(FILE_MANAGERS[0]), ),
+KEY_CHORD_MM = [
+    Key(NULL_KEY, "x", lazy.spawn(FILE_MANAGERS[0]), ),
     Key(NULL_KEY, "v", lazy.spawn(TEXT_EDITORS[0]), ),
     Key(NULL_KEY, "e", lazy.spawn(TEXT_EDITORS[1]), ),
     Key(NULL_KEY, "f", lazy.spawn(BROWSERS[0]), ),
     Key(NULL_KEY, "g", lazy.spawn(BROWSERS[1]), ),
     Key(NULL_KEY, "b", lazy.spawn(BROWSERS[2]), ),
     Key(NULL_KEY, "t", lazy.spawn(TORRENT_CLIENTS[0]), ),
+    Key(NULL_KEY, "y", lazy.spawn(IDES[0]), ),
 ]
 
 DEFAULT_KEYS = [
@@ -82,24 +83,41 @@ DEFAULT_KEYS = [
     Key([MOD, CTRL], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     # Sound
     Key([], "XF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
-    Key([], "XF86AudioLowerVolume", lazy.spawn(
-        "amixer -c 0 sset Master 1- unmute")),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn(
-        "amixer -c 0 sset Master 1+ unmute")),
+    Key(
+        [],
+        "XF86AudioRaiseVolume",
+        lazy.spawn("amixer set 'Master' 5%+")
+    ),
+    Key(
+        [],
+        "XF86AudioLowerVolume",
+        lazy.spawn("amixer set 'Master' 5%-")
+    ),
     # Monitor brightness
-    Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight + 10")),
-    Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight - 10")),
+    Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight + 5")),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight - 5")),
     # More keybindings
     Key([MOD], RETURN, lazy.spawn(TERMINALS[0]), ),
     Key([MOD, CTRL], RETURN, lazy.spawn(TERMINALS[1]), ),
     Key([MOD], "r", lazy.spawn(APP_LAUNCHERS[0]), ),
     Key([MOD], "p", lazy.spawncmd(), ),
     Key([MOD, SHIFT], "f", float_to_front),
-    Key([MOD], "m", lazy.spawn(FILE_MANAGERS[0]), ),
+    Key(
+        [MOD], "f",
+        lazy.window.toggle_floating(),
+        desc="Toggle floating",
+    ),
+    Key(
+        [MOD, CTRL], "f",
+        lazy.window.toggle_fullscreen(),
+        desc="Toggle fullscreen",
+    ),
+    Key([MOD], "x", lazy.spawn(FILE_MANAGERS[0]), ),
     Key([MOD, CTRL], "s", lazy.spawn(f"{TERMINALS[0]} -e shutdown now"), ),
-    # KeyChord: M-a
-    KeyChord([MOD], "a", KEY_CHORD_MA),
+    Key([MOD], "g", lazy.ungrab_all_chords(), ),
+    # KeyChord: M-m
+    KeyChord([MOD], "m", KEY_CHORD_MM,),
 ]
 
 
-KEYS = DEFAULT_KEYS.copy()
+KEYS = DEFAULT_KEYS

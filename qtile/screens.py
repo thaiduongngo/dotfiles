@@ -4,7 +4,7 @@ from libqtile.config import Group, Key, Screen
 from libqtile import bar, layout, widget, qtile
 from keys import M_BTNS
 from nspace import FONTS, HOME_DIR, BACKLIGHT_NAME, TERMINALS, read_props
-from nspace import WN_MARGIN, WN_BORDER_WIDTH, FONT_SIZE, FONT_ICON_SIZE, TEXT_PADDING_SIZE, OPACITY
+from nspace import BAR_HEIGHT, WN_MARGIN, WN_BORDER_WIDTH, FONT_SIZE, FONT_ICON_SIZE, TEXT_PADDING_SIZE, OPACITY, FONT_ICON_BIG_SIZE
 
 
 # Colors theme
@@ -31,7 +31,7 @@ def create_layouts():
         # Try more layouts by unleashing below layouts.
         # layout.Stack(num_stacks=2),
         # layout.Tile(),
-        # layout.TreeTab(),
+        layout.TreeTab(**LAYOUT_STYLE),
         # layout.VerticalTile(),
         # layout.Zoomy(),
     ]
@@ -45,7 +45,6 @@ WIDGET_DEFAULTS = dict(
     foreground=THEME["FOREGROUND"],
 )
 
-
 sep_big = widget.Sep(
     linewidth=0,
     padding=6,
@@ -56,16 +55,30 @@ sep = widget.Sep(
     padding=3,
 )
 
+v_sep = widget.TextBox(
+    text="&#xeb10;",
+    foreground=THEME["INACTIVE"]
+)
+
 
 def create_widgets():
     widgets = [
         sep_big,
-        widget.Image(
-            filename="~/.config/qtile/icons/arch-round1.png",
-            scale="False",
-            mouse_callbacks={
-                M_BTNS[0]: lambda: qtile.cmd_spawn(TERMINALS[0])}),
+        widget.TextBox(
+            text="&#xf303;",
+            foreground=THEME["HIGHLIGHT1"],
+            fontsize=FONT_ICON_BIG_SIZE,
+            mouse_callbacks={M_BTNS[0]: lambda: qtile.cmd_spawn(
+                f"{TERMINALS[0]} --class alacrittysysinfo --title sysinfo -e bpytop")}
+        ),
         sep,
+        widget.TextBox(
+            text="&#xe795;",
+            foreground=THEME["HIGHLIGHT1"],
+            fontsize=FONT_ICON_BIG_SIZE,
+            mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(TERMINALS[0])},
+        ),
+        v_sep,
         widget.GroupBox(
             active=THEME["ACTIVE"],
             inactive=THEME["INACTIVE"],
@@ -78,62 +91,54 @@ def create_widgets():
             urgent_alert_method="line",
             urgent_text=THEME["URGENT"],
             urgent_border=THEME["URGENT"],
+            hide_unused=True,
+            disable_drag=True,
         ),
+        v_sep,
+        widget.CurrentLayoutIcon(scale=0.7),
         sep,
         widget.Prompt(fmt="❯ {}"),
-        widget.TextBox(
-            text="&#xf2d0;",
-            fontsize=FONT_ICON_SIZE,
-            foreground=THEME["HIGHLIGHT1"],),
         widget.WindowName(padding=6,
                           empty_group_string="<Empty>"),
-        sep,
-        widget.CurrentLayoutIcon(scale=0.66),
-        sep,
-        widget.StatusNotifier(),
-        sep,
         widget.TextBox(
-            text="&#xf1eb;",
+            text="&#xfaa8;",
             fontsize=FONT_ICON_SIZE,
             foreground=THEME["HIGHLIGHT1"],),
         widget.Net(
-            format="{down}↓{up}↑",
-            mouse_callbacks={M_BTNS[0]: lambda: qtile.cmd_spawn(f"{TERMINALS[0]} -e nmtui")}),
-        sep,
-        widget.TextBox(text="&#xf028;", fontsize=FONT_ICON_SIZE,
+            format="{down}↓{up}↑",),
+        v_sep,
+        widget.TextBox(text="&#xfa7d;", fontsize=FONT_ICON_SIZE,
                        foreground=THEME["HIGHLIGHT1"],),
         widget.Volume(),
-        sep,
-        widget.TextBox(text="&#xf042;", fontsize=FONT_ICON_SIZE,
+        v_sep,
+        widget.TextBox(text="&#xf5df;", fontsize=FONT_ICON_SIZE,
                        foreground=THEME["HIGHLIGHT1"],),
         widget.Backlight(backlight_name=BACKLIGHT_NAME),
-        sep,
+        v_sep,
         widget.TextBox(
             text="&#xf240;",
             fontsize=FONT_ICON_SIZE,
             foreground=THEME["HIGHLIGHT1"],),
         widget.Battery(),
-        sep,
+        v_sep,
         widget.TextBox(
-            text="&#xf133;",
+            text="&#xf073;",
             fontsize=FONT_ICON_SIZE,
             foreground=THEME["HIGHLIGHT1"],),
         widget.Clock(
             format="%I:%M %p",
-            mouse_callbacks={M_BTNS[0]: lambda: qtile.cmd_spawn(f"{TERMINALS[0]} -e khal --color interactive")}),
-        sep_big,
+            mouse_callbacks={M_BTNS[0]: lambda: qtile.cmd_spawn(f"{TERMINALS[0]} --hold  --class alacrittykhal --title Calendar -e khal --color interactive")}),
+        v_sep,
         widget.TextBox(
-            text="&#xf08b;",
+            text="&#xf705;",
             fontsize=FONT_ICON_SIZE,
             foreground=THEME["HIGHLIGHT1"],
             mouse_callbacks={M_BTNS[0]: lambda: qtile.cmd_shutdown()}),
-        sep,
         widget.TextBox(
             text="&#xf0e2;",
             fontsize=FONT_ICON_SIZE,
             foreground=THEME["HIGHLIGHT1"],
-            mouse_callbacks={M_BTNS[0]: lambda: qtile.cmd_spawn(f"{TERMINALS[0]} -e reboot now")}),
-        sep,
+            mouse_callbacks={M_BTNS[0]: lambda: qtile.cmd_spawn(f"{TERMINALS[0]} -e reboot")}),
         widget.TextBox(
             text="&#xf011;",
             fontsize=FONT_ICON_SIZE,
@@ -148,7 +153,7 @@ def create_screen():
     screen = Screen(
         top=bar.Bar(
             create_widgets(),
-            30,
+            BAR_HEIGHT,
             opacity=OPACITY,
         ),
     )

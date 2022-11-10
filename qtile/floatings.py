@@ -9,7 +9,10 @@ TITLE = "title"
 FLOAT_RULES = [
     (WM_CLASS, "microsoft teams - preview"),
     (WM_CLASS, "vlc"),
+    (WM_CLASS, "mpv"),
+    (WM_CLASS, "spectacle"),
     (TITLE, "Confirm File Replacing"),
+    (TITLE, "Copying files"),
 ]
 
 
